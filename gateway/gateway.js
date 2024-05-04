@@ -4,10 +4,8 @@ const httpProxy = require('http-proxy');
 const app = express();
 const proxy = httpProxy.createProxyServer();
 
-// Define the URLs of the Flask services
 const flaskServiceUrl = 'http://localhost:5001';
 
-// Forward requests for '/api/query-tuition' to the Flask 'Mobile' namespace
 app.use('/api/query-tuition', (req, res) => {
   console.log(`Incoming request to /api/query-tuition: ${req.method} ${req.url}`);
   proxy.web(req, res, { target: `${flaskServiceUrl}/Mobile/query-tuition` }, (err) => {
@@ -16,7 +14,6 @@ app.use('/api/query-tuition', (req, res) => {
   });
 });
 
-// Forward requests for '/api/pay-tuition' to the Flask 'Banking' namespace
 app.use('/api/pay-tuition', (req, res) => { 
   console.log(`Incoming request to /api/pay-tuition: ${req.method} ${req.url}`);
   proxy.web(req, res, { target: `${flaskServiceUrl}/Banking/pay-tuition` }, (err) => {
@@ -25,7 +22,6 @@ app.use('/api/pay-tuition', (req, res) => {
   });
 });
 
-// Add middleware to log the request received by the proxy 
 proxy.on('proxyReq', function (proxyReq, req, res, options) {
   console.log(`Received request to ${options.target}: ${req.method} ${req.url}`);
 });

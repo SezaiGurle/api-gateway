@@ -3,20 +3,16 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3002;
 
-// Örnek öğrenci veritabanı
 const unpaid_tuition = {
   "Spring2024": ["123456", "789012", "345678"],
   "Fall2024": ["901234", "567890"]
 };
 
-// body-parser middleware'ini kullan
 app.use(bodyParser.json());
 
-// /admin/unpaid-tuition-status yolunu dinleyen endpoint
 app.get('/admin/unpaid-tuition-status', (req, res) => {
   console.log(`Received request for unpaid tuition status: ${req.method} ${req.url}`);
   
-  // Ödenmemiş öğrenim ücreti durumunu al
   const term = req.query.term;
   const page = parseInt(req.query.page) || 1;
   const per_page = parseInt(req.query.per_page) || 10;
